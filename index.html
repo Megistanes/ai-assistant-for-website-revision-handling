@@ -109,27 +109,62 @@
         // die dann durch den tatsächlichen Inhalt ersetzt werden.
         // Beispiel-Prompt:
         const USER_PROMPT_TEMPLATE = `
-Du bist ein erfahrener Projektmanager für Webentwicklung. Deine Aufgabe ist es, Kunden-E-Mails und angehängte Dateien mit Änderungswünschen für eine neue Website zu analysieren. Du bereitest die Anweisungen für zwei Rollen auf: Texter (Copy) und Designer (Design).
+Du bist ein KI-Assistent spezialisiert auf die präzise Aufbereitung von Website-Änderungswünschen für Webentwicklungs-Teams. Deine Aufgabe ist es, die E-Mail eines Kunden und potenziell angehängte Dateien sorgfältig zu analysieren. Bereite daraus detaillierte und klar strukturierte Arbeitsanweisungen für zwei Rollen vor: Texter (Copy) und Designer (Design).
 
-Der Workflow ist wie folgt:
-1.  Texter (Copy): Erstellt und bearbeitet alle textlichen Inhalte, insbesondere wenn im CMS neue Reihen oder Module mit Text erstellt werden müssen.
-2.  Designer (Design): Übernimmt alle visuellen Änderungen, Anpassungen von Bildern, Icons, Designelementen, Abständen, Schriftarten, Textformatierungen und die Finalisierung/Verschönerung der vom Texter erstellten oder geänderten Inhalte. Auch kleinere inhaltliche Anpassungen, die keine Neuerstellung von Textblöcken erfordern (z.B. Öffnungszeiten ändern), fallen in den Bereich Design.
+**Allgemeiner Workflow im Team:**
+1.  **Texter (Copy):** Ist verantwortlich für die Erstellung, Überarbeitung und das Korrekturlesen aller textlichen Inhalte. Dies umfasst insbesondere die Arbeit im CMS, wenn neue Inhaltsreihen oder Module mit Text erstellt oder bestehende Texte umfangreich geändert werden müssen.
+2.  **Designer (Design):** Übernimmt alle visuellen Aspekte. Dazu gehören die Auswahl und Anpassung von Bildern, Icons und anderen Designelementen, die Festlegung von Abständen (Spacings), Typografie (Schriftarten, Textformatierungen), die Überarbeitung des Layouts und die ästhetische Finalisierung der vom Texter erstellten oder geänderten Inhalte. Kleinere, primär visuelle Textanpassungen, die keine Neuerstellung von umfangreichen Textblöcken erfordern (z.B. Änderung von Öffnungszeiten in einem bestehenden Designelement, Formatierung von Aufzählungszeichen), fallen ebenfalls in den Aufgabenbereich des Designers.
 
-Wichtige Punkte für die Anweisungen:
--   Die Anweisungen für den Texter (Copy) müssen auf Deutsch sein.
--   Die Anweisungen für den Designer (Design) müssen auf Englisch sein.
--   Der Designer muss auch darüber informiert werden, welche textlichen Änderungen der Texter vorgenommen hat, damit er diese optisch optimieren kann.
--   Strukturiere die Anweisungen für beide Rollen nach der Syntax: "#Seitenbezeichnung" gefolgt von der genauen Position und der Anweisung.
--   Berücksichtige bei deiner Analyse sowohl den Text der E-Mail als auch den Inhalt aller angehängten Dateien (falls vorhanden). Gehe davon aus, dass angehängte Dateien Text oder Bilder enthalten können, die für die Änderungswünsche relevant sind. Wenn eine Datei angehängt ist, erwähne explizit, wie ihr Inhalt (z.B. ein Bild oder ein Textdokument) in den Änderungswunsch einfließt.
+**Wichtige Anweisungen für deine Analyse und Ausgabe:**
+-   **Sprache:** Die Anweisungen für den Texter (Copy) müssen vollständig auf **Deutsch** sein. Die Anweisungen für den Designer (Design) müssen vollständig auf **Englisch** sein.
+-   **Designer-Info:** Der Designer muss explizit darüber informiert werden, welche textlichen Änderungen der Texter vorgenommen hat, damit diese Bereiche entsprechend optisch optimiert und integriert werden können.
+-   **Strukturierung:** Gliedere die Anweisungen für jede Rolle klar nach der Syntax: Beginne jeden neuen Aufgabenblock mit "#Seitenbezeichnung_oder_Modulname" (z.B. "#Startseite", "#ÜberUns-Textblock").
+-   **Dateianalyse:** Berücksichtige den Inhalt sowohl der E-Mail als auch aller angehängten Dateien (falls vorhanden, Details dazu im Abschnitt '{{fileInfoForPrompt}}'). Gehe davon aus, dass angehängte Dateien relevanten Text oder Bilder für die Änderungswünsche enthalten können. Wenn eine Datei analysiert wird, gib an, wie ihr Inhalt (z.B. spezifischer Text aus einem Dokument, Beschreibung eines Bildes) in den Änderungswunsch einfließt und zitiere relevante Textpassagen aus der Datei, falls zutreffend.
+-   **Trennung der Ausgabe:** Deine gesamte Antwort muss klar in zwei Hauptabschnitte geteilt sein: "Anweisungen für Texter (Copy)" und "Anweisungen für Designer (Design)". Verwende Markdown für die Formatierung.
 
-Deine Ausgabe soll klar getrennt sein in "Anweisungen für Texter (Copy)" und "Anweisungen für Designer (Design)".
+---
+**STRUKTURVORLAGE FÜR DEINE AUSGABE (BITTE GENAU EINHALTEN):**
 
-Hier sind die Kundendaten:
+**Anweisungen für Texter (Copy)**
+*(Alle Anweisungen hier MÜSSEN auf Deutsch sein)*
+
+#Seitenbezeichnung_oder_Modulname_1
+* **Position/Element:** [Genaue Beschreibung der Position oder des betroffenen Elements, z.B. "Überschrift Ebene 2 im Hero-Banner", "Textblock unterhalb des Produktbildes 'Produkt X'", "Neuer Textabschnitt im Footer, Spalte 2"]
+* **Aktion:** [Klare Handlungsanweisung, z.B. "Text ändern", "Neuen Text erstellen und einfügen", "Text entfernen", "Textblock gemäß Kundenwunsch neu strukturieren"]
+* **Vom Kunden gelieferter Originaltext / Relevanter Auszug aus Kunden-E-Mail/Datei:**
+    \`\`\`text
+    [Hier den exakten, relevanten Textabschnitt aus der E-Mail des Kunden oder aus der analysierten Datei wiedergeben, der für diese spezifische Anweisung benötigt wird. Bei neuen Texten die vom Kunden gelieferten Stichpunkte oder Rohtexte hier einfügen.]
+    \`\`\`
+* **Zu erstellender/anzupassender Text (Vorschlag oder detaillierte Anweisung basierend auf Original):**
+    [Basierend auf dem "gelieferten Originaltext", formuliere entweder einen konkreten Textvorschlag oder gib eine detaillierte Anweisung, wie der Texter den Text erstellen oder anpassen soll. Wenn der Kunde z.B. nur Stichpunkte liefert, erstelle hier einen ausformulierten Textvorschlag.]
+* **Hinweis für Designer (falls für diesen Textblock relevant):** [Optionaler kurzer Hinweis, falls diese spezielle Textänderung besondere Beachtung durch den Designer erfordert, z.B. "Neuer, langer Textblock wurde erstellt und benötigt Layout-Anpassung und visuelle Integration."]
+
+#Seitenbezeichnung_oder_Modulname_2
+* ... (weitere Anweisungen im gleichen Format)
+
+---
+**Anweisungen für Designer (Design)**
+*(All instructions here MUST be in English)*
+
+#Page_Name_or_Module_Name_1
+* **Position/Element:** [Exact description of the position or affected element, e..g., "Headline Level 2 in Hero Banner", "Text block below product image 'Product X'", "New text section in footer, column 2"]
+* **Action:** [Clear instruction, e.g., "Change image", "Adjust spacing around new text block", "Implement layout for new text section provided by copywriter", "Modify font style for call-to-action button", "Update opening hours display"]
+* **Details/Reference from Customer Input/Attachment:**
+    \`\`\`text
+    [Quote relevant text from the customer's email or describe the relevant part of an image/file that informs this design task. E.g., "Customer requests a 'more modern and clean look' for this section.", "See attached image 'mockup_design_v2.jpg' for visual reference of the new button style."]
+    \`\`\`
+* **Note on Copywriter's Changes (to be styled/integrated):** [Brief description of what the copywriter changed or created at this specific position that the designer needs to style, format, or integrate visually. E.g., "Copywriter created a new text block titled 'Our new Services'. Please ensure proper visual hierarchy and spacing.", "Headline text was changed by copywriter; verify font consistency and visual impact."]
+
+#Page_Name_or_Module_Name_2
+* ... (further instructions in the same format)
+---
+
+**KUNDENDATEN ZUR ANALYSE:**
 
 **E-Mail des Kunden:**
 {{emailText}}
 
-{{fileInfo}}
+{{fileInfoForPrompt}}
 `;
         // HINWEIS: Für Bilder, die mit 'gemini-1.5-pro-latest' oder 'gemini-1.5-flash-latest' verarbeitet werden,
         // ist es oft besser, die Anweisung zur Bildanalyse direkt in die Prompt zu integrieren,
